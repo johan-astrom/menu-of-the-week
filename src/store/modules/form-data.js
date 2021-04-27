@@ -1,5 +1,3 @@
-
-
 const state = {
   title: '',
   ingredientName: '',
@@ -39,10 +37,10 @@ const mutations = {
 }
 
 const actions = {
-  setToCurrent({commit, rootState}) {
+  setToCurrent({ commit, rootState }) {
     let recipe = rootState.currentRecipe
 
-    commit('setTitle', recipe.title)
+    commit("setTitle", recipe.title);
     commit('setIngredients', recipe.ingredients.slice())
     commit('setWeekday', recipe.weekday)
     commit('setImage', recipe.image)
