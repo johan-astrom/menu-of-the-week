@@ -19,8 +19,24 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from "vuex";
+
 export default {
-  name: "RecipeList"
+  name: "RecipeList",
+  data() {
+    return {}
+  },
+  methods: {
+    ...mapMutations([
+      'removeDuplicates', 'setCurrentRecipe'
+    ]),
+    hideRecipes() {
+      this.$store.commit('hideAll')
+    }
+  },
+  computed: mapState([
+    'recipes', 'weekdays', 'showRecipes'
+  ])
 };
 </script>
 
