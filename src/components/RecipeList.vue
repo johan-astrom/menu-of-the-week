@@ -6,13 +6,8 @@
       <h4>Add one by clicking "Add a recipe" to the left.</h4>
     </div>
     <ul v-else id="recipe-parent-list">
-      <li id="recipes-loop"
-          v-for="(recipe, index) in recipes"
-          :key="index">
-        <recipe-info
-          :recipe="recipe"
-        ></recipe-info>
-
+      <li id="recipes-loop" v-for="(recipe, index) in recipes" :key="index">
+        <recipe-info :recipe="recipe"></recipe-info>
       </li>
     </ul>
   </section>
@@ -25,25 +20,19 @@ import RecipeInfo from "@/components/RecipeInfo";
 export default {
   name: "RecipeList",
   components: {
-    "recipe-info": RecipeInfo
+    "recipe-info": RecipeInfo,
   },
   data() {
-    return {}
+    return {};
   },
   methods: {
-    ...mapMutations([
-      'removeDuplicates', 'setCurrentRecipe'
-    ]),
+    ...mapMutations(["removeDuplicates", "setCurrentRecipe"]),
     hideRecipes() {
-      this.$store.commit('hideAll')
-    }
+      this.$store.commit("hideAll");
+    },
   },
-  computed: mapState([
-    'recipes', 'weekdays', 'showRecipes'
-  ])
+  computed: mapState(["recipes", "weekdays", "showRecipes"]),
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -11,22 +11,21 @@ import RecipeInfo from "@/components/RecipeInfo";
 export default {
   name: "TodaysRecipe",
   components: {
-    "recipe-info": RecipeInfo
+    "recipe-info": RecipeInfo,
   },
   data() {
-    return {}
+    return {};
   },
   methods: {
-    ...mapMutations([
-      'removeDuplicates', 'hideAll'
-    ])
+    ...mapMutations(["removeDuplicates", "hideAll"]),
   },
   computed: mapState([
-    'recipes', 'weekdays', 'showTodaysRecipe', 'currentRecipe'
-  ])
+    "recipes",
+    "weekdays",
+    "showTodaysRecipe",
+    "currentRecipe",
+  ]),
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

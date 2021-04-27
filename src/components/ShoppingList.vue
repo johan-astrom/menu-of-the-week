@@ -2,26 +2,30 @@
   <article id="shopping-list" v-show="showShoppingList">
     <button id="hide-shoppinglist" @click="hideAll">Hide shopping list</button>
     <h2>This week's shopping list:</h2>
-    <ul v-for="(recipe, index) in recipes"
-        :key="index"
-        v-if="recipe.weekday">
+    <ul v-for="(recipe, index) in recipes" :key="index" v-if="recipe.weekday">
       <li
         v-for="(ingredient, index) in recipe.ingredients"
         :key="index"
-        @mouseover="hoveredItem=ingredient"
-        @mouseleave="hoveredItem=''"
-        :class="{greenMarked: ingredient.purchased}">
-        {{ ingredient.ingredientName }} : {{ ingredient.ingredientQty }}{{ ingredient.ingredientWeight }}
-        <img v-if="!ingredient.purchased"
-             v-show="hoveredItem===ingredient"
-             @click="changePurchased(ingredient)"
-             src="../assets/img/icon/outline_radio_button_unchecked_black_24dp.png"
-             alt="check">
-        <img v-if="ingredient.purchased"
-             v-show="hoveredItem===ingredient"
-             @click="changePurchased(ingredient)"
-             src="../assets/img/icon/outline_check_circle_black_24dp.png"
-             alt="uncheck">
+        @mouseover="hoveredItem = ingredient"
+        @mouseleave="hoveredItem = ''"
+        :class="{ greenMarked: ingredient.purchased }"
+      >
+        {{ ingredient.ingredientName }} : {{ ingredient.ingredientQty
+        }}{{ ingredient.ingredientWeight }}
+        <img
+          v-if="!ingredient.purchased"
+          v-show="hoveredItem === ingredient"
+          @click="changePurchased(ingredient)"
+          src="../assets/img/icon/outline_radio_button_unchecked_black_24dp.png"
+          alt="check"
+        />
+        <img
+          v-if="ingredient.purchased"
+          v-show="hoveredItem === ingredient"
+          @click="changePurchased(ingredient)"
+          src="../assets/img/icon/outline_check_circle_black_24dp.png"
+          alt="uncheck"
+        />
       </li>
     </ul>
   </article>
@@ -34,23 +38,15 @@ export default {
   name: "ShoppingList",
   data() {
     return {
-      hoveredItem: ''
-    }
+      hoveredItem: "",
+    };
   },
   methods: {
-    ...mapMutations([
-      'hideAll'
-    ]),
-    ...mapActions([
-      'changePurchased'
-    ])
+    ...mapMutations(["hideAll"]),
+    ...mapActions(["changePurchased"]),
   },
-  computed: mapState([
-    'recipes', 'showShoppingList'
-  ])
+  computed: mapState(["recipes", "showShoppingList"]),
 };
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

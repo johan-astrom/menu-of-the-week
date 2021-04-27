@@ -1,14 +1,14 @@
 <template>
   <section>
-  <header>
-    <h1>Menu of the week</h1>
-    <div class="header-line"></div>
-  </header>
+    <header>
+      <h1>Menu of the week</h1>
+      <div class="header-line"></div>
+    </header>
 
-  <main>
-    <week-table></week-table>
-    <user-interactivity></user-interactivity>
-  </main>
+    <main>
+      <week-table></week-table>
+      <user-interactivity></user-interactivity>
+    </main>
   </section>
 </template>
 
@@ -20,19 +20,19 @@ export default {
   name: "App",
   components: {
     UserInteractivity,
-    WeekTable
+    WeekTable,
   },
   mounted() {
-    this.$store.dispatch('loadRecipes')
-  }
+    this.$store.dispatch("loadRecipes");
+  },
 };
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Merriweather&family=Open+Sans&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Merriweather&family=Open+Sans&display=swap");
 
 body {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   margin: 0;
   padding-bottom: 30px;
 }
@@ -42,23 +42,23 @@ ul li {
   font-size: 18px;
 }
 
-li{
+li {
   margin: 0 50px;
 }
 
-li#ingredient-list{
-  margin: 0 70px
+li#ingredient-list {
+  margin: 0 70px;
 }
 
 header h1 {
-  font-family: 'Merriweather', serif;
+  font-family: "Merriweather", serif;
   text-align: center;
   font-size: 40px;
   margin: 20px auto;
 }
 
 .header-line {
-  background: linear-gradient(90deg, #A0A603, #BF5B04);
+  background: linear-gradient(90deg, #a0a603, #bf5b04);
   height: 20px;
   width: 100%;
   margin-bottom: 50px;
@@ -70,14 +70,14 @@ article#week-grid {
   overflow-x: auto;
   grid-template-rows: 70px 200px;
   grid-gap: 30px;
-  border: 2px solid #A0A603;
+  border: 2px solid #a0a603;
   border-right: none;
   justify-items: center;
   margin-bottom: 30px;
   padding: 10px 30px;
 }
 
-#week-grid figcaption{
+#week-grid figcaption {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -93,14 +93,14 @@ main {
   text-align: center;
 }
 
-#hide-recipes, #hide-shoppinglist{
+#hide-recipes,
+#hide-shoppinglist {
   display: none;
 }
 
 #recipe-list ul li:first-child {
   margin-top: 20px;
 }
-
 
 article#optionButtons button {
   margin-bottom: 40px;
@@ -131,66 +131,71 @@ button {
   height: 65px;
 }
 
-#recipe-form p{
+#recipe-form p {
   margin-bottom: 20px;
 }
 
-form button, input[type=submit] {
+form button,
+input[type="submit"] {
   display: inline-block;
   width: 40%;
 }
 
-button, input[type=submit] {
+button,
+input[type="submit"] {
   font-size: 20px;
   padding: 13px;
-  background-color: #FFF;
+  background-color: #fff;
   border: 2px solid black;
   transition: 0.2s;
   height: 65px;
-
 }
 
-input[type=submit] {
+input[type="submit"] {
   margin-top: 20px;
   margin-bottom: 15px;
-  border: 3px solid #A0A603;
+  border: 3px solid #a0a603;
 }
 
-button:hover, input[type=submit]:hover {
-  background-color: #D9D166;
-  border-color: #D9D166;
+button:hover,
+input[type="submit"]:hover {
+  background-color: #d9d166;
+  border-color: #d9d166;
   transition: 0.2s;
 }
 
-label{
+label {
   font-size: 20px;
 }
 
-input{
+input {
   width: 60%;
   height: 40px;
   font-size: 18px;
   text-align: center;
 }
 
-select{
+select {
   width: 50%;
   font-size: 16px;
   height: 40px;
   text-align-last: center;
 }
 
-input, select{
+input,
+select {
   padding: 10px 15px;
   box-sizing: border-box;
 }
 
-input:focus, select:focus, button:focus {
+input:focus,
+select:focus,
+button:focus {
   outline: none;
-  border-color: #F2CEAE;
+  border-color: #f2ceae;
 }
 
-input[type=number]{
+input[type="number"] {
   width: 80px;
 }
 
@@ -221,7 +226,7 @@ input[type=number]{
   margin-top: 20px;
 }
 
-#recipes-loop h3{
+#recipes-loop h3 {
   cursor: pointer;
 }
 
@@ -229,8 +234,7 @@ input[type=number]{
   margin-top: 20px;
 }
 
-
-#recipe-header{
+#recipe-header {
   font-size: 22px;
   display: flex;
   align-items: flex-start;
@@ -238,16 +242,18 @@ input[type=number]{
   justify-content: center;
 }
 
-.fa-trash-alt{
+.fa-trash-alt {
   margin: 4px 15px;
   cursor: pointer;
 }
 
-#recipe-info, #reactive-recipe, #shopping-list{
+#recipe-info,
+#reactive-recipe,
+#shopping-list {
   word-wrap: normal;
 }
 
-#reactive-recipe h2{
+#reactive-recipe h2 {
   font-size: 22px;
 }
 
@@ -268,7 +274,7 @@ input[type=number]{
   display: inline-block;
 }
 
-#update-button{
+#update-button {
   width: 318px;
   margin-bottom: 20px;
   margin-top: 12px;
@@ -282,11 +288,11 @@ article#shopping-list ul {
   text-decoration: underline;
 }
 
-#recipes-loop > *{
+#recipes-loop > * {
   vertical-align: text-top;
 }
 
-#recipe-info{
+#recipe-info {
   display: inline-block;
 }
 
@@ -295,7 +301,7 @@ article#shopping-list ul {
 }
 
 h3.active-title {
-  color: #A0A603;
+  color: #a0a603;
 }
 
 #shopping-list ul {
@@ -313,22 +319,20 @@ h3.active-title {
 }
 
 .greenMarked {
-  color: #A0A603;
+  color: #a0a603;
 }
 
-
 @media screen and (min-width: 1024px) {
-
-  ul{
+  ul {
     list-style-position: outside;
   }
 
-  li{
+  li {
     margin: 0 0;
   }
 
-  li#ingredient-list{
-    margin: 0 0
+  li#ingredient-list {
+    margin: 0 0;
   }
 
   article#week-grid {
@@ -336,7 +340,7 @@ h3.active-title {
     grid-template-columns: repeat(7, minmax(0, 1fr));
     grid-template-rows: 70px 200px;
     grid-gap: 30px;
-    border: 2px solid #A0A603;
+    border: 2px solid #a0a603;
     justify-items: center;
     margin-bottom: 30px;
     padding: 10px 30px;
@@ -353,7 +357,8 @@ h3.active-title {
     text-align: left;
   }
 
-  #hide-recipes, #hide-shoppinglist{
+  #hide-recipes,
+  #hide-shoppinglist {
     display: block;
     margin: 0 0;
   }
@@ -364,47 +369,50 @@ h3.active-title {
     margin: 2px auto;
   }
 
-  button, input[type=submit] {
+  button,
+  input[type="submit"] {
     font-size: 16px;
     padding: 13px;
     height: 48px;
   }
 
-  input[type=submit] {
+  input[type="submit"] {
     margin-bottom: 7px;
     text-align: center;
   }
 
-  form button, input[type=submit] {
+  form button,
+  input[type="submit"] {
     display: inline;
   }
 
-  input, select {
+  input,
+  select {
     padding: 5px;
     text-align: left;
   }
 
-  input[type=number]{
+  input[type="number"] {
     width: 80px;
   }
 
-  select{
+  select {
     width: 120px;
     font-size: 16px;
     height: 40px;
     text-align-last: left;
   }
 
-  #recipes-loop{
+  #recipes-loop {
     list-style-position: outside;
   }
 
-  #recipe-info{
+  #recipe-info {
     display: inline-block;
     text-align: left;
   }
 
-  #recipe-header{
+  #recipe-header {
     font-size: 22px;
     display: flex;
     align-items: flex-start;
@@ -423,10 +431,9 @@ h3.active-title {
     display: inline-block;
   }
 
-  #update-button{
+  #update-button {
     width: 234px;
     margin-bottom: 20px;
   }
-
 }
 </style>
