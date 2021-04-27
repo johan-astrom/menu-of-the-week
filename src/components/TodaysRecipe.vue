@@ -5,8 +5,21 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from "vuex";
+
 export default {
-  name: "TodaysRecipe"
+  name: "TodaysRecipe",
+  data() {
+    return {}
+  },
+  methods: {
+    ...mapMutations([
+      'removeDuplicates', 'hideAll'
+    ])
+  },
+  computed: mapState([
+    'recipes', 'weekdays', 'showTodaysRecipe', 'currentRecipe'
+  ])
 };
 </script>
 
