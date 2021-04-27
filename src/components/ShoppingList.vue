@@ -15,12 +15,12 @@
         <img v-if="!ingredient.purchased"
              v-show="hoveredItem===ingredient"
              @click="changePurchased(ingredient)"
-             src="img/icon/outline_radio_button_unchecked_black_24dp.png"
+             src="../assets/img/icon/outline_radio_button_unchecked_black_24dp.png"
              alt="check">
         <img v-if="ingredient.purchased"
              v-show="hoveredItem===ingredient"
              @click="changePurchased(ingredient)"
-             src="img/icon/outline_check_circle_black_24dp.png"
+             src="../assets/img/icon/outline_check_circle_black_24dp.png"
              alt="uncheck">
       </li>
     </ul>
