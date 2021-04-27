@@ -170,7 +170,7 @@ export default {
     ]),
     renderImgString() {
       if (this.weekday) {
-        return `img/${this.weekday}.jpg`
+        return `@/assets/img/${this.weekday}.jpg`
       } else return ''
     },
     title: {

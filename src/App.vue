@@ -22,6 +22,9 @@ export default {
     UserInteractivity,
     WeekTable
   },
+  mounted() {
+    this.$store.dispatch('loadRecipes')
+  }
 };
 </script>
 
