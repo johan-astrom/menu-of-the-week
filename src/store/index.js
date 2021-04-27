@@ -110,7 +110,7 @@ const mutations = {
       state.showTodaysRecipe = false;
     } else {
       state.currentRecipe.weekday = state.assignedWeekday;
-      state.currentRecipe.image = `@/assets/img/${state.assignedWeekday}.jpg`;
+      state.currentRecipe.image = require(`../assets/img/${state.assignedWeekday}.jpg`);
     }
   },
 };
