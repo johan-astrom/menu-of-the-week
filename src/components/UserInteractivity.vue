@@ -78,10 +78,18 @@
 </template>
 
 <script>
-import {mapMutations, mapActions, mapState} from 'vuex'
+import { mapMutations, mapActions, mapState } from "vuex";
+import TodaysRecipe from "@/components/TodaysRecipe";
+import RecipeList from "@/components/RecipeList";
+import ShoppingList from "@/components/ShoppingList";
 
 export default {
   name: "UserInteractivity",
+  components: {
+    "todays-recipe": TodaysRecipe,
+    "recipe-list": RecipeList,
+    "shopping-list": ShoppingList
+  },
   data() {
     return {
       showIngredientError: false,

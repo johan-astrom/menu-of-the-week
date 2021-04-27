@@ -6,9 +6,13 @@
 
 <script>
 import { mapMutations, mapState } from "vuex";
+import RecipeInfo from "@/components/RecipeInfo";
 
 export default {
   name: "TodaysRecipe",
+  components: {
+    "recipe-info": RecipeInfo
+  },
   data() {
     return {}
   },
