@@ -2,8 +2,7 @@
   <article id="week-grid">
     <h2 v-for="weekday in weekdays" :key="weekday">{{ weekday }}</h2>
     <figure
-      v-for="(recipe, index) in recipes"
-      v-if="recipe.weekday"
+      v-for="(recipe, index) in weekdayRecipes"
       :key="index"
       :style="{ gridArea: position(recipe) }"
       @mouseover="hoveredWeekday = recipe.weekday"
@@ -52,7 +51,14 @@ export default {
       }
     },
   },
-  computed: mapState(["recipes", "weekdays"]),
+  computed: {
+    ...mapState(["recipes", "weekdays"]),
+    weekdayRecipes: function(){
+      return this.recipes.filter((recipe) => {
+        return recipe.weekday;
+      });
+    }
+  }
 };
 </script>
 
