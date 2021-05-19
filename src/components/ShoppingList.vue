@@ -2,7 +2,7 @@
   <article id="shopping-list" v-show="showShoppingList">
     <button id="hide-shoppinglist" @click="hideAll">Hide shopping list</button>
     <h2>This week's shopping list:</h2>
-    <ul v-for="(recipe, index) in recipes" :key="index" v-if="recipe.weekday">
+    <ul v-for="(recipe, index) in weekdayRecipes" :key="index">
       <li
         v-for="(ingredient, index) in recipe.ingredients"
         :key="index"
@@ -45,7 +45,14 @@ export default {
     ...mapMutations(["hideAll"]),
     ...mapActions(["changePurchased"]),
   },
-  computed: mapState(["recipes", "showShoppingList"]),
+  computed: {
+    ...mapState(["recipes", "showShoppingList"]),
+    weekdayRecipes: function() {
+      return this.recipes.filter((recipe) => {
+        return recipe.weekday;
+      });
+    }
+  }
 };
 </script>
 
