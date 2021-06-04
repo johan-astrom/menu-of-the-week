@@ -2,13 +2,12 @@ import Vue from "vue";
 import Vuex from "vuex";
 import formData from "./modules/form-data";
 
-
 Vue.use(Vuex);
 
 //const store = new Vuex.Store({
 
 const modules = {
-  formData: formData
+  formData: formData,
 };
 
 const state = {
@@ -19,7 +18,7 @@ const state = {
     "thursday",
     "friday",
     "saturday",
-    "sunday"
+    "sunday",
   ],
   recipes: [],
   currentRecipe: "",
@@ -31,7 +30,8 @@ const state = {
   showTodaysRecipe: false,
   showShoppingList: false,
   update: false,
-  assignedWeekday: ""
+  assignedWeekday: "",
+  fetchURL: "http://localhost:3000",
 };
 
 const mutations = {
@@ -41,6 +41,16 @@ const mutations = {
   },
   deleteRecipe(state) {
     let pos = state.recipes.indexOf(state.currentRecipe);
+    fetch(`${state.fetchURL}/recipes/${state.currentRecipe.id}`, {
+      method: "DELETE",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: { "Content-Type": "application/json" },
+      redirect: "follow",
+      referrerPolicy: "no-referrer"
+    }).then((res) => res.json());
+
     state.recipes.splice(pos, 1);
     state.showTodaysRecipe = false;
     state.currentRecipe = "";
@@ -113,7 +123,7 @@ const mutations = {
       state.currentRecipe.weekday = state.assignedWeekday;
       state.currentRecipe.image = require(`../assets/img/${state.assignedWeekday}.jpg`);
     }
-  }
+  },
 };
 
 const actions = {
@@ -124,25 +134,26 @@ const actions = {
   },
   //todo bild laddas inte
   loadRecipes({ commit }) {
-    fetch("http://localhost:3000/recipes")
+    fetch(`${state.fetchURL}/recipes`)
       .then((res) => {
         return res.json();
-      }).then((data) => {
-      let recipes = data.recipes;
-      for (let recipe of recipes) {
-        recipe.image = `../assets/img/${recipe.weekday}.jpg`;
-        recipe.alt = recipe.weekday;
-      }
-      console.log(recipes);
-      commit("loadRecipes", recipes);
-    });
+      })
+      .then((data) => {
+        let recipes = data.recipes;
+        for (let recipe of recipes) {
+          recipe.image = `../assets/img/${recipe.weekday}.jpg`;
+          recipe.alt = recipe.weekday;
+        }
+        console.log(recipes);
+        commit("loadRecipes", recipes);
+      });
   },
   deleteRecipe({ state, commit }) {
     if (
       confirm(
         "Are you sure you want to delete recipe: " +
-        state.currentRecipe.title +
-        "?"
+          state.currentRecipe.title +
+          "?"
       )
     ) {
       commit("deleteRecipe");
@@ -178,12 +189,12 @@ const actions = {
   changePurchased({ commit }, ingredient) {
     commit("changePurchased", ingredient);
     commit("updateRecipes");
-  }
+  },
 };
 
 export default new Vuex.Store({
   state,
   mutations,
   actions,
-  modules
+  modules,
 });
