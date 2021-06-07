@@ -125,6 +125,17 @@ const mutations = {
 const actions = {
   //state param?
   saveRecipe({ commit }, recipe) {
+    fetch(`${state.fetchURL}/recipes`, {
+      method: "POST",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: { "Content-Type": "application/json" },
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify(recipe)
+    }).then(res => {
+      return res.json();
+    });
     commit("saveRecipe", recipe);
     commit("removeDuplicates", recipe);
   },
