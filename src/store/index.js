@@ -41,14 +41,6 @@ const mutations = {
   },
   deleteRecipe(state) {
     let pos = state.recipes.indexOf(state.currentRecipe);
-    fetch(`${state.fetchURL}/recipes/${state.currentRecipe.id}`, {
-      method: "DELETE",
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: { "Content-Type": "application/json" },
-      referrerPolicy: "no-referrer"
-    }).then((res) => res.json());
 
     state.recipes.splice(pos, 1);
     state.showTodaysRecipe = false;
@@ -65,6 +57,7 @@ const mutations = {
   loadRecipes(state, recipes) {
     state.recipes = recipes;
   },
+  //todo ta bort
   updateRecipes(state) {
     localStorage.setItem("recipes-array", JSON.stringify(state.recipes));
   },
@@ -97,6 +90,10 @@ const mutations = {
     for (let i = 0; i < state.recipes.length; i++) {
       if (state.recipes[i] !== recipe) {
         if (state.recipes[i].weekday === recipe.weekday) {
+          fetch(`${state.fetchURL}/recipes/${state.currentRecipe.id}`)
+            .then(res => {
+              return res.json();
+            });
           state.recipes[i].weekday = "";
         }
       }
@@ -104,18 +101,6 @@ const mutations = {
   },
   changePurchased(state, ingredient) {
     ingredient.purchased = !ingredient.purchased;
-    fetch(`${state.fetchURL}/ingredients/${ingredient.id}`,
-      {
-        method: "PATCH",
-        mode: "cors",
-        cache: "no-cache",
-        credentials: "same-origin",
-        headers: { "Content-Type": "application/json" },
-        referrerPolicy: "no-referrer",
-        body: JSON.stringify({ "purchased": ingredient.purchased })
-      }).then(res => {
-      return res.json();
-    });
   },
   displayForm(state) {
     state.showForm = true;
@@ -167,6 +152,14 @@ const actions = {
         "?"
       )
     ) {
+      fetch(`${state.fetchURL}/recipes/${state.currentRecipe.id}`, {
+        method: "DELETE",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json" },
+        referrerPolicy: "no-referrer"
+      }).then((res) => res.json());
       commit("deleteRecipe");
       commit("updateRecipes");
     }
@@ -199,7 +192,19 @@ const actions = {
   },
   changePurchased({ commit }, ingredient) {
     commit("changePurchased", ingredient);
-    commit("updateRecipes");
+    fetch(`${state.fetchURL}/ingredients/${ingredient.id}`,
+      {
+        method: "PATCH",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json" },
+        referrerPolicy: "no-referrer",
+        body: JSON.stringify({ "purchased": ingredient.purchased })
+      }).then(res => {
+      commit("updateRecipes");
+      return res.json();
+    });
   }
 };
 
