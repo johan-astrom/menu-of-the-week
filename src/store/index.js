@@ -7,7 +7,7 @@ Vue.use(Vuex);
 //const store = new Vuex.Store({
 
 const modules = {
-  formData: formData,
+  formData: formData
 };
 
 const state = {
@@ -18,7 +18,7 @@ const state = {
     "thursday",
     "friday",
     "saturday",
-    "sunday",
+    "sunday"
   ],
   recipes: [],
   currentRecipe: "",
@@ -31,7 +31,7 @@ const state = {
   showShoppingList: false,
   update: false,
   assignedWeekday: "",
-  fetchURL: "http://localhost:3000",
+  fetchURL: "http://localhost:3000"
 };
 
 const mutations = {
@@ -104,6 +104,18 @@ const mutations = {
   },
   changePurchased(state, ingredient) {
     ingredient.purchased = !ingredient.purchased;
+    fetch(`${state.fetchURL}/ingredients/${ingredient.id}`,
+      {
+        method: "PATCH",
+        mode: "cors",
+        cache: "no-cache",
+        credentials: "same-origin",
+        headers: { "Content-Type": "application/json" },
+        referrerPolicy: "no-referrer",
+        body: JSON.stringify({ "purchased": ingredient.purchased })
+      }).then(res => {
+      return res.json();
+    });
   },
   displayForm(state) {
     state.showForm = true;
@@ -122,7 +134,7 @@ const mutations = {
       state.currentRecipe.weekday = state.assignedWeekday;
       state.currentRecipe.image = require(`../assets/img/${state.assignedWeekday}.jpg`);
     }
-  },
+  }
 };
 
 const actions = {
@@ -151,8 +163,8 @@ const actions = {
     if (
       confirm(
         "Are you sure you want to delete recipe: " +
-          state.currentRecipe.title +
-          "?"
+        state.currentRecipe.title +
+        "?"
       )
     ) {
       commit("deleteRecipe");
@@ -188,12 +200,12 @@ const actions = {
   changePurchased({ commit }, ingredient) {
     commit("changePurchased", ingredient);
     commit("updateRecipes");
-  },
+  }
 };
 
 export default new Vuex.Store({
   state,
   mutations,
   actions,
-  modules,
+  modules
 });
