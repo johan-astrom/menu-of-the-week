@@ -93,19 +93,7 @@ const mutations = {
     state.assignedWeekday = weekday;
   },
   removeDuplicates(state, recipe) {
-    for (let i = 0; i < state.recipes.length; i++) {
-      if (
-        recipe.weekday &&
-        state.recipes[i].weekday === recipe.weekday &&
-        state.recipes[i] !== recipe
-      ) {
-        fetch(`${state.fetchURL}/remove-weekday/${state.recipes[i].id}`)
-          .then(res => {
-            return res.json();
-          });
-        state.recipes[i].weekday = "";
-      }
-    }
+    recipe.weekday = "";
   },
   changePurchased(state, ingredient) {
     ingredient.purchased = !ingredient.purchased;
@@ -118,6 +106,7 @@ const mutations = {
     state.showForm = false;
     state.showRecipeSavedMsg = true;
   },
+  //todo fixa denna
   assignWeekday(state) {
     if (state.assignedWeekday === "-- none --") {
       state.currentRecipe.weekday = "";
@@ -132,7 +121,7 @@ const mutations = {
 
 const actions = {
   //state param?
-  saveRecipe({ commit }, recipe) {
+  saveRecipe({ commit, dispatch }, recipe) {
     console.log(JSON.stringify(recipe));
     fetch(`${state.fetchURL}/recipes`, {
       method: "POST",
@@ -147,7 +136,7 @@ const actions = {
       .then((data) => {
         recipe.id = data.recipe.id;
         commit("saveRecipe", recipe);
-        commit("removeDuplicates", recipe);
+        dispatch("removeDuplicates", recipe);
       });
   },
   //todo bild laddas inte
@@ -186,25 +175,41 @@ const actions = {
     commit("hideAll");
     commit("updateRecipe");
   },
-  saveRecipeUpdate({ commit }, recipe) {
+  saveRecipeUpdate({ commit, dispatch }, recipe) {
     commit("saveRecipeUpdate", recipe);
-    commit("removeDuplicates", recipe);
+    dispatch("removeDuplicates", recipe);
     commit("updateRecipes");
   },
+  removeDuplicates({ commit, state }, recipe) {
+    for (let i = 0; i < state.recipes.length; i++) {
+      if (
+        recipe.weekday &&
+        state.recipes[i].weekday === recipe.weekday &&
+        state.recipes[i] !== recipe
+      ) {
+        fetch(`${state.fetchURL}/remove-weekday/${state.recipes[i].id}`)
+          .then(res => {
+            commit("removeDuplicates", state.recipes[i])
+            return res.json();
+          });
+      }
+    }
+  },
   //state param?
-  saveRecipeActions({ commit }, recipe) {
+  saveRecipeActions({ commit, dispatch }, recipe) {
     commit("updateRecipes");
-    commit("removeDuplicates", recipe);
+    dispatch("removeDuplicates", recipe);
     commit("displayRecipeSavedMsg");
   },
   displayForm({ commit }) {
     commit("hideAll");
     commit("displayForm");
   },
-  assignWeekday({ state, commit }) {
+  assignWeekday({ state, commit, dispatch }) {
+
     commit("assignWeekday");
     if (state.assignedWeekday !== "-- none --") {
-      commit("removeDuplicates", state.currentRecipe);
+      dispatch("removeDuplicates", state.currentRecipe);
     }
     commit("updateRecipes");
   },
