@@ -88,7 +88,11 @@ const mutations = {
   },
   removeDuplicates(state, recipe) {
     for (let i = 0; i < state.recipes.length; i++) {
-      if (recipe.weekday && state.recipes[i].weekday === recipe.weekday && state.recipes[i] !== recipe) {
+      if (
+        recipe.weekday &&
+        state.recipes[i].weekday === recipe.weekday &&
+        state.recipes[i] !== recipe
+      ) {
         fetch(`${state.fetchURL}/remove-weekday/${state.recipes[i].id}`)
           .then(res => {
             return res.json();
@@ -123,7 +127,6 @@ const mutations = {
 const actions = {
   //state param?
   saveRecipe({ commit }, recipe) {
-    console.log(JSON.stringify(recipe));
     fetch(`${state.fetchURL}/recipes`, {
       method: "POST",
       mode: "cors",
@@ -132,11 +135,13 @@ const actions = {
       headers: { "Content-Type": "application/json" },
       referrerPolicy: "no-referrer",
       body: JSON.stringify(recipe)
-    }).then(res => {
-      return res.json();
-    });
-    commit("saveRecipe", recipe);
-    commit("removeDuplicates", recipe);
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        recipe = data.recipe;
+        commit("saveRecipe", recipe);
+        commit("removeDuplicates", recipe);
+      });
   },
   //todo bild laddas inte
   loadRecipes({ commit }) {
