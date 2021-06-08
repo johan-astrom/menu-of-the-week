@@ -127,6 +127,7 @@ const mutations = {
 const actions = {
   //state param?
   saveRecipe({ commit }, recipe) {
+    console.log(JSON.stringify(recipe))
     fetch(`${state.fetchURL}/recipes`, {
       method: "POST",
       mode: "cors",
@@ -138,7 +139,7 @@ const actions = {
     })
       .then((res) => res.json())
       .then((data) => {
-        recipe = data.recipe;
+        recipe.id = data.recipe.id;
         commit("saveRecipe", recipe);
         commit("removeDuplicates", recipe);
       });
