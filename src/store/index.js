@@ -88,14 +88,12 @@ const mutations = {
   },
   removeDuplicates(state, recipe) {
     for (let i = 0; i < state.recipes.length; i++) {
-      if (state.recipes[i] !== recipe) {
-        if (state.recipes[i].weekday === recipe.weekday) {
-          fetch(`${state.fetchURL}/recipes/${state.currentRecipe.id}`)
-            .then(res => {
-              return res.json();
-            });
-          state.recipes[i].weekday = "";
-        }
+      if (recipe.weekday && state.recipes[i].weekday === recipe.weekday && state.recipes[i] !== recipe) {
+        fetch(`${state.fetchURL}/remove-weekday/${state.recipes[i].id}`)
+          .then(res => {
+            return res.json();
+          });
+        state.recipes[i].weekday = "";
       }
     }
   },
@@ -125,6 +123,7 @@ const mutations = {
 const actions = {
   //state param?
   saveRecipe({ commit }, recipe) {
+    console.log(JSON.stringify(recipe));
     fetch(`${state.fetchURL}/recipes`, {
       method: "POST",
       mode: "cors",
