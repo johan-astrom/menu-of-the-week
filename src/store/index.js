@@ -55,6 +55,12 @@ const mutations = {
     state.recipes[pos] = recipe;
   },
   loadRecipes(state, recipes) {
+    for (let recipe of recipes) {
+      if (recipe.weekday) {
+        recipe.image = require(`@/assets/img/${recipe.weekday}.jpg`);
+        recipe.alt = recipe.weekday;
+      }
+    }
     state.recipes = recipes;
   },
   //todo ta bort
@@ -119,7 +125,7 @@ const mutations = {
       state.showTodaysRecipe = false;
     } else {
       state.currentRecipe.weekday = state.assignedWeekday;
-      state.currentRecipe.image = require(`../assets/img/${state.assignedWeekday}.jpg`);
+      state.currentRecipe.image = require(`@/assets/img/${state.assignedWeekday}.jpg`);
     }
   }
 };
@@ -127,7 +133,7 @@ const mutations = {
 const actions = {
   //state param?
   saveRecipe({ commit }, recipe) {
-    console.log(JSON.stringify(recipe))
+    console.log(JSON.stringify(recipe));
     fetch(`${state.fetchURL}/recipes`, {
       method: "POST",
       mode: "cors",
@@ -152,10 +158,6 @@ const actions = {
       })
       .then((data) => {
         let recipes = data.recipes;
-        for (let recipe of recipes) {
-          recipe.image = `../assets/img/${recipe.weekday}.jpg`;
-          recipe.alt = recipe.weekday;
-        }
         console.log(recipes);
         commit("loadRecipes", recipes);
       });

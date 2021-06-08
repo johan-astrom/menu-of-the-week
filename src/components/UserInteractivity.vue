@@ -197,7 +197,7 @@ export default {
     ]),
     renderImgString() {
       if (this.weekday) {
-        return require(`../assets/img/${this.weekday}.jpg`);
+        return require(`@/assets/img/${this.weekday}.jpg`);
       } else return "";
     },
     title: {
