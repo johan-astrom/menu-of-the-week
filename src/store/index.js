@@ -189,7 +189,7 @@ const actions = {
       ) {
         fetch(`${state.fetchURL}/remove-weekday/${state.recipes[i].id}`)
           .then(res => {
-            commit("removeDuplicates", state.recipes[i])
+            commit("removeDuplicates", state.recipes[i]);
             return res.json();
           });
       }
@@ -206,12 +206,29 @@ const actions = {
     commit("displayForm");
   },
   assignWeekday({ state, commit, dispatch }) {
-
-    commit("assignWeekday");
-    if (state.assignedWeekday !== "-- none --") {
-      dispatch("removeDuplicates", state.currentRecipe);
+    let recipe = state.currentRecipe;
+    if (state.assignedWeekday === "-- none --") {
+      recipe.weekday = "";
+    } else {
+      recipe.weekday = state.assignedWeekday;
     }
-    commit("updateRecipes");
+    fetch(`${state.fetchURL}/recipes/${state.currentRecipe.id}`, {
+      method: "PUT",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: { "Content-Type": "application/json" },
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify(recipe)
+    }).then((res) => {
+      commit("assignWeekday");
+      if (state.assignedWeekday !== "-- none --") {
+        dispatch("removeDuplicates", state.currentRecipe);
+      }
+      commit("updateRecipes");
+      return res.json();
+    });
+
   },
   changePurchased({ commit }, ingredient) {
     commit("changePurchased", ingredient);
