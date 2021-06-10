@@ -50,7 +50,10 @@ const mutations = {
     state.showForm = true;
     state.update = true;
   },
+  //todo doesnt update immediately
   saveRecipeUpdate(state, recipe) {
+    recipe.image = require(`@/assets/img/${recipe.weekday}.jpg`);
+    recipe.alt = recipe.weekday;
     let pos = state.recipes.indexOf(state.currentRecipe);
     state.recipes[pos] = recipe;
   },
@@ -62,10 +65,6 @@ const mutations = {
       }
     }
     state.recipes = recipes;
-  },
-  //todo ta bort
-  updateRecipes(state) {
-    localStorage.setItem("recipes-array", JSON.stringify(state.recipes));
   },
   hideAll(state) {
     state.showRecipe = false;
@@ -106,7 +105,6 @@ const mutations = {
     state.showForm = false;
     state.showRecipeSavedMsg = true;
   },
-  //todo fixa denna
   assignWeekday(state) {
     if (state.assignedWeekday === "-- none --") {
       state.currentRecipe.weekday = "";
@@ -114,6 +112,7 @@ const mutations = {
       state.showTodaysRecipe = false;
     } else {
       state.currentRecipe.weekday = state.assignedWeekday;
+      state.currentRecipe.alt = state.assignedWeekday;
       state.currentRecipe.image = require(`@/assets/img/${state.assignedWeekday}.jpg`);
     }
   }
@@ -122,7 +121,6 @@ const mutations = {
 const actions = {
   //state param?
   saveRecipe({ commit, dispatch }, recipe) {
-    console.log(JSON.stringify(recipe));
     fetch(`${state.fetchURL}/recipes`, {
       method: "POST",
       mode: "cors",
@@ -168,17 +166,26 @@ const actions = {
         referrerPolicy: "no-referrer"
       }).then((res) => res.json());
       commit("deleteRecipe");
-      commit("updateRecipes");
     }
   },
   updateRecipe({ commit }) {
     commit("hideAll");
     commit("updateRecipe");
   },
-  saveRecipeUpdate({ commit, dispatch }, recipe) {
+  saveRecipeUpdate({ state, commit, dispatch }, recipe) {
     commit("saveRecipeUpdate", recipe);
     dispatch("removeDuplicates", recipe);
-    commit("updateRecipes");
+    fetch(`${state.fetchURL}/recipes/${state.currentRecipe.id}`, {
+      method: "PUT",
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: { "Content-Type": "application/json" },
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify(recipe)
+    }).then((res) => {
+      return res.json();
+    });
   },
   removeDuplicates({ commit, state }, recipe) {
     for (let i = 0; i < state.recipes.length; i++) {
@@ -197,7 +204,6 @@ const actions = {
   },
   //state param?
   saveRecipeActions({ commit, dispatch }, recipe) {
-    commit("updateRecipes");
     dispatch("removeDuplicates", recipe);
     commit("displayRecipeSavedMsg");
   },
@@ -225,7 +231,6 @@ const actions = {
       if (state.assignedWeekday !== "-- none --") {
         dispatch("removeDuplicates", state.currentRecipe);
       }
-      commit("updateRecipes");
       return res.json();
     });
 
@@ -242,7 +247,6 @@ const actions = {
         referrerPolicy: "no-referrer",
         body: JSON.stringify({ "purchased": ingredient.purchased })
       }).then(res => {
-      commit("updateRecipes");
       return res.json();
     });
   }
