@@ -4,6 +4,8 @@
 
 An application that lets the user save recipes, display them in a week-view and show a shopping list of the ingredients required for this week's recipes.
 
+_Backend server at https://github.com/johan-astrom/menu-of-the-week-backend_
+
 ## Project setup
 ```
 npm install
